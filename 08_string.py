@@ -225,7 +225,10 @@ word = "PYTHON"
 # print("=== find() ===")
 # 전달받은 글자가 "첫 번째"로 나오는 위치 인덱스 반환
 # 찾는 글자가 없다면 -1을 반환
-email = "hong@company.com"
-at = email.find("@")  # @ 위치의 인덱스인 4가 할당
-user_id = email[:at]  # hong 이라는 사용자의 아이디만 추출
-print(user_id)  # hong
+
+# email = "hong@company.com"
+# at = email.find("@")  # @ 위치의 인덱스인 4가 할당
+# user_id = email[:at]  # hong 이라는 사용자의 아이디만 추출
+# print(user_id)  # hong
+
+# 다다음주 # SQE-00Q8이라는 설비의 SQE만 뽑아내기(find와 슬라이싱 사용)
