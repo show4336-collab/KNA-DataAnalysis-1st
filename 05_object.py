@@ -73,5 +73,5 @@ ok = True
 # str과 int/float는 서로 다른 자료형이므로 연산이 불가
 # print('123' + 123) # TypeError 발생
 
-print(10 / 2)  # 5.0 > 나눗셈은 결과가 딱 떨어져도 항상 float로 출력됨
-print(type(10 / 2))  # <class 'float'> > 나눗셈의 결과는 항상 float
+# print(10 / 2)  # 5.0 > 나눗셈은 결과가 딱 떨어져도 항상 float로 출력됨
+# print(type(10 / 2))  # <class 'float'> > 나눗셈의 결과는 항상 float
