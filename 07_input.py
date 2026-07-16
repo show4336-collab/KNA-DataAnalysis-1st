@@ -144,4 +144,3 @@ print("=== 형변환 - float ===")
 # c = int(input("c = ?"))
 # avg = (a + b + c) / 3
 # print("60 이상?", avg >= 60)
-
