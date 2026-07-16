@@ -37,11 +37,11 @@
 # # ex) print("hello" == "hi") # False
 
 # NameError(선언하지 않은 이름 호출했을 때)
-hi = "안녕"
-hello = hi
-print(hello)
-print(hello == "hi")  # False / hi는 문자가 아니라 변수라서 False임
-print(hello == hi)  # True / Hello랑 hi는 같은 변수라서 True임
+# hi = "안녕"
+# hello = hi
+# print(hello)
+# print(hello == "hi")  # False / hi는 문자가 아니라 변수라서 False임
+# print(hello == hi)  # True / Hello랑 hi는 같은 변수라서 True임
 
 
 # 변수로 비교연산자 사용
@@ -50,3 +50,62 @@ print(hello == hi)  # True / Hello랑 hi는 같은 변수라서 True임
 # print(num1 >= num2)  # False
 # print(num1 >= "num2") # TypeError 발생
 # int랑 str은 서로 다른 자료형이므로 비교연산자 사용 불가
+
+# ===========
+# and / or / not - 논리연산자
+# and : 둘 다 True여야 True를 반환
+# print(5 == 5 and 7 == 7)  # True
+# print(5 == 7 and 7 == 7)  # False + True = False
+# # and는 첫 번째 조건이 False라면 뒤에 조건은 확인 안함
+# print(5 == 5 and 7 != 7)  # True + False = False
+# # 위 코드는 가능하다면 7 != 7 and 5 == 5 순서로 작성
+
+# # or : 하나라도 True라면 True 반환
+# print(5 == 5 or 7 == 7)  # True
+# print(5 == 7 or 7 == 7)  # False + True = True
+# print(5 == 5 or 7 != 7)
+# or는 첫 번째 조건이 True라면 뒤에 조건 확인 안함
+
+# not : 값을 반대로 뒤집음
+# print(not True) # False
+# print(not 5 == 5) # False
+# 5 == 5를 연산하여 True를 변환
+# not True로 작성해서 True를 뒤집어 False로 반환
+# 반환받은 False라는 값을 print가 터미널로 출력
+
+# print(5 == 5)  # True
+# print(5 != 6)  # True
+# print(3 > 5)  # false
+# print(3 < 5)  # True
+# print(6 >= 5)  # True
+# print(6 <= 5)  # False
+
+# 온도, 압력 = 85, 5
+# 온도정상 = 60 <= 온도 and 90 >= 온도
+# 압력정상 = 7 >= 압력 and 3 <= 압력
+# print(압력정상 and 온도정상)
+
+# 재고 = 100
+# 입고 = 50
+# 출고 = 30
+# 반품 = 5
+# print(재고 + 입고)
+# print(재고 - 출고)
+# print(재고 + 반품)
+
+# 재고 = 100
+# 재고 += 50  # 입고
+# print(재고)
+# 재고 -= 30 # 출고
+# print(재고)
+# 재고 += 5 # 반품
+# print(재고)
+
+# total = 500
+# defect = 23
+# print("불량율", defect / total * 100, "%")  # 불량율 %
+# run = 21
+# all = 24
+# print("가동율", run / 24 * 100, "%")  # 가동율 %
+# minute = 500
+# print(minute // 60, "시간", minute % 60, "분")
