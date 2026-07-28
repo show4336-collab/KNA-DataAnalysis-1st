@@ -634,14 +634,14 @@
 
 # 실습 4. 센서 로그 한 줄 정리 리포트 만들기
 # 내 답안 : split을 하면 문자열이 되서 숫자는 float을 해줘야 함.
-log = " 5,sensor_2,WARNING,0.78912 "
-log = log.strip().split(",")
-print(f"[센서 {log[1]}] 상태 {log[2].lower()}, 측정값 {float(log[3]):.2f}")
+# log = " 5,sensor_2,WARNING,0.78912 "
+# log = log.strip().split(",")
+# print(f"[센서 {log[1]}] 상태 {log[2].lower()}, 측정값 {float(log[3]):.2f}")
 
 # 모범 답안
-raw = "  5 , sensor_2 , WARNING , 0.78912  "
-parts = raw.strip().split(",")  # 앞뒤 공백 제거 후 쉼표로 분리
-sid = parts[1].strip()  # sensor_2
-status = parts[2].strip().lower()  # warning
-value = float(parts[3].strip())  # 0.78912
-print(f"[센서 {sid}] 상태 {status}, 측정값 {value:.2f}")
+# raw = "  5 , sensor_2 , WARNING , 0.78912  "
+# parts = raw.strip().split(",")  # 앞뒤 공백 제거 후 쉼표로 분리
+# sid = parts[1].strip()  # sensor_2
+# status = parts[2].strip().lower()  # warning
+# value = float(parts[3].strip())  # 0.78912
+# print(f"[센서 {sid}] 상태 {status}, 측정값 {value:.2f}")
