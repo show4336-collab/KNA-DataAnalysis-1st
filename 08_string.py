@@ -369,6 +369,9 @@
 # print("i'm full".capitalize())  # I'm full
 # print("i'm full".title())  # I'M Full
 # print("i'm full".title())  # I'M Full
+# I'm Full 하고 싶으면
+# import string
+# print(string.capwords("i'm full"))
 
 # print("NORMAL".lower() == "normal".lower())
 
@@ -498,7 +501,7 @@
 # "띄어쓰기"를 기준으로 나뉘어진 세 개의 문자열을 대괄호에 감싸서 변환
 
 # 구분자를 특정하고 싶은 경우
-fruits = "딸기,바나나,키위,사쿠란보"
+# fruits = "딸기,바나나,키위,사쿠란보"
 # print(
 # fruits.split(",")  # 문자열 콤마를 기준으로 분할 # ['딸기', '바나나', '키위', '사쿠란보']
 # fruits2 = "딸기, 바나나, 키위, 사쿠란보"
@@ -587,7 +590,7 @@ fruits = "딸기,바나나,키위,사쿠란보"
 # 고르는 기준은? : 바꿔 하나로 둘지, 나눠 따로 쓸지
 
 # strip + split 함께 쓰기
-# strip 먼저, spli 나중 순으로 깔끔하게 나누기
+# strip 먼저, split 나중 순으로 깔끔하게 나누기
 # text.strip().split(',') 형태로 체이닝
 # 앞뒤 공백·줄바꿈을 떼고 나눠 첫·끝조각이 깔끔
 # 파일에서 읽은 줄을 다룰 때 거의 항상 이 순서
@@ -597,6 +600,48 @@ fruits = "딸기,바나나,키위,사쿠란보"
 # a = a.split(",")
 # print(a[1].strip().lower())
 
-name = "PUMP_A"
-temp = 87
-print(f"설비 {name}, 온도 {temp}도")
+
+# print("=== f-string ===")
+# name = "PUMP_A"
+# temp = 87
+# print("설비 " + name + ", 온도 " + str(temp) + "도")
+# print(f"설비 {name}, 온도 {temp}도")
+
+# f-string 연산
+# hour = 8
+# print(f"우리는 하루에 {hour}시간 수업을 듣고, 이는 {60*hour}분입니다.")
+# 우리는 하루에 8시간 수업을 듣고, 이는 480분입니다.
+
+
+# 실습 2. f-string 안에서 계산하기
+# a = 88
+# b = 87
+# c = 86
+# print(f"평균 {(a+b+c)/3}")  # 평균 87.0
+
+# f-string 소수점 자리
+# value = 87.456
+# print(f"측정값 {value:.1f}")  # 측정값 87.5 / :.1f 소수점 첫째 자리
+# print(f"측정값 {value:.2f}")  # 측정값 87.46 / :.2f 소수점 둘재 자리
+
+
+# 텍스트 정리 흐름
+# 1. 공백제거 strip
+# 2. 통일, 치환 lower replace
+# 3. 나누기 split
+# 4. 조각정리 조각 strip
+# 5. 합치기 join 출력
+
+# 실습 4. 센서 로그 한 줄 정리 리포트 만들기
+# 내 답안 : split을 하면 문자열이 되서 숫자는 float을 해줘야 함.
+log = " 5,sensor_2,WARNING,0.78912 "
+log = log.strip().split(",")
+print(f"[센서 {log[1]}] 상태 {log[2].lower()}, 측정값 {float(log[3]):.2f}")
+
+# 모범 답안
+raw = "  5 , sensor_2 , WARNING , 0.78912  "
+parts = raw.strip().split(",")  # 앞뒤 공백 제거 후 쉼표로 분리
+sid = parts[1].strip()  # sensor_2
+status = parts[2].strip().lower()  # warning
+value = float(parts[3].strip())  # 0.78912
+print(f"[센서 {sid}] 상태 {status}, 측정값 {value:.2f}")
