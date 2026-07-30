@@ -304,3 +304,6 @@
 # print(temps)
 # print(temps.count(24))
 # print(temps.index(24))
+
+# print(not True) # False
+# print(not 5 == 5) # False
