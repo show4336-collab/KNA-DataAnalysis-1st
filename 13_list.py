@@ -67,16 +67,27 @@ rows = [["펌프", 25], ["모터", 32], ["냉각기", 15]]
 # rows는 리스트를 담고 있는 큰 리스트
 # row는 rows 안에 있는 작은 리스트 ex) ["펌프", 25] 하나
 
+# 실습 6. 센서 데이터 종합 분석하기
+# 첫 번째 작성
+# temps = [10, 15, 30, 40, 50, 60, 70, 80]
+# total = []
+# for t in temps:
+#     if t > 30:
+#         total.append(t)
+# tempss = len(temps)
+# temps = sum(temps)
+# totals = len(total)
+# total = sum(total)
+# print(
+#     f"전체 평균 : {round(temps / tempss, 1)} / 고온 개수 : {totals} / 고온 평균 : {round(total / totals)}"
+# )
 
-temps = [10, 15, 30, 40, 50, 60, 70, 80]
-total = []
-for t in temps:
-    if t > 30:
-        total.append(t)
-tempss = len(temps)
-temps = sum(temps)
-totals = len(total)
-total = sum(total)
-print(
-    f"전체 평균 : {round(temps / tempss, 1)} / 고온 개수 : {totals} / 고온 평균 : {round(total / totals)}"
-)
+# 두 번째 작성 / 훨씬 단순하고 보기 좋음
+# temps = [10, 20, 30, 40, 50, 60, 70]
+# high_temps = []
+# for t in temps:
+#     if t > 30:
+#         high_temps.append(t)
+# print(
+#     f"전체 평균 : {sum(temps) / len(temps)} / 고온 개수 : {len(high_temps)} / 고온 평균 : {sum(high_temps) / len(high_temps)}"
+# )
