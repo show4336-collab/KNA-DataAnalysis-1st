@@ -211,11 +211,19 @@
 #         print(f"{name} 경고")
 
 # 실습 3. 중첩 튜플로 센서 위치 관리하기
-sensors = [("펌프압력", 100, (5, 3)), ("회전속도", 150, (6, 3))]
-for name, value, position in sensors:
-    x, y = position
-    print(name, x, y)
-for name, value, position in sensors:
-    x, y = position
-    if x <= 5:
-        print(f"{name}")
+
+# 방법 1.
+# sensors = [("펌프압력", 100, (5, 3)), ("회전속도", 150, (6, 3))]
+# for name, value, position in sensors:
+#     x, y = position
+#     print(name, x, y)
+# for name, value, position in sensors:
+#     x, y = position
+#     if x <= 5:
+#         print(f"{name}")
+
+# 방법 2.'
+
+sensors = [("모터온도", 100, (3, 6)), ("펌프압력", 200, (6, 9))]
+for name
+
