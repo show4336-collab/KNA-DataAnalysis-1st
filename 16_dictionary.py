@@ -14,4 +14,6 @@ empty = {}
 print(empty)  # {}
 print(type(empty))  # <class 'dict'>
 
+print(sensors["motor_temp"])
 print(sensors["vib"])
+
