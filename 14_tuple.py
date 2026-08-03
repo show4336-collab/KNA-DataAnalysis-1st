@@ -221,8 +221,3 @@
 #     x, y = position
 #     if x <= 5:
 #         print(f"{name}")
-
-# 방법 2.'
-
-sensors = [("모터온도", 100, (3, 6)), ("펌프압력", 200, (6, 9))]
-for name
