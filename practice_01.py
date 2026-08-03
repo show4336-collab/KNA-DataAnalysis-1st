@@ -19,43 +19,61 @@ sensors = [
 #   온도 >= 80 또는 진동 >= 3.0 > "주의"
 #   그 외                      > "정상"
 
-print("========================================")
-print("       설비 종합 모니터링 리포트         ")
-print("========================================")
+print("===================================================")
+print("             설비 종합 모니터링 리포트              ")
+print("===================================================")
 
-temps_1 = 0
-temps_2 = 0
-temps_3 = 0
+status_1 = 0
+status_2 = 0
+status_3 = 0
 n = 0
 for name, temp, vibe in sensors:
     if temp > 90 or vibe > 5.0:
-        temps_1 += 1
+        status_1 += 1
         n += 1
         print(f" {n}. {name} | 온도 {temp}℃ | 진동 {vibe}mm/s | 위험 🚨")
     elif temp >= 80 or vibe >= 3.0:
-        temps_2 += 1
+        status_2 += 1
         n += 1
         print(f" {n}. {name} | 온도 {temp}℃ | 진동 {vibe}mm/s | 주의 ❗")
     else:
-        temps_3 += 1
+        status_3 += 1
         n += 1
         print(f" {n}. {name} | 온도 {temp}℃ | 진동 {vibe}mm/s | 정상 ✅")
-print("========================================")
+
+print("===================================================")
 print(f"총 설비 : {len(sensors)}대")
-print(f"정상 : {temps_3} / 주의 : {temps_2} / 위험 : {temps_1}")
-temp_1 = 0
-temp_2 = 0
-for name, temp, vibe in sensors:
-    if temp > 90 or vibe > 5.0:
-        temp_1 += 1
-    elif temp >= 80 or vibe >= 3.0:
-        temp_2 += 1
-print(f"이상설비 비율 : {round(((temp_1 + temp_2)/len(sensors)), 1)*100}%")
+print(f"정상 : {status_3} / 주의 : {status_2} / 위험 : {status_1}")
+print(f"이상 설비 비율 : {round(((((status_2 + status_1) / len(sensors)) * 100)), 1)}%")
 
 total = 0
+total_index = 0
+
 for name, temp, vibe in sensors:
     total += temp
-    print(f"평균 온도 : {round((total/len(temp)), 1)}")
+    total_index += 1
+print(f"평균 온도 : {round((total / total_index), 1)}℃")
+
+temp_high = 0
+name_high = "설비이름"
+for name, temp, vibe in sensors:
+    if temp_high < temp:
+        temp_high = temp
+        name_high = name
+print(f"최고 온도 설비 : {name_high} ({temp_high}℃)")
+
+danger_list = []
+
+for name, temp, vibe in sensors:
+    if temp > 90 or vibe > 5.0:
+        danger_list.append(name)
+print(f"위험 설비 목록 : {sorted(danger_list)}")
+print("===================================================")
+
+if len(danger_list) > 0:
+    print("⚠  즉시 점검 요망")
+else:
+    print("✅ 전 설비 안정")
 
 # TODO 1. 각 설비 상태 판정해서 번호 붙여 한 줄씩 출력 (for + enumerate + if/elif/else)
 
