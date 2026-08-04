@@ -221,29 +221,127 @@
 
 # 실습 2. update로 여러 값 한 번에 갱신하기
 
-sensors = {"센서명": "모터", "온도": 72}
-sensors.update({"압력": 100})
-print(sensors)  # {'센서명': '모터', '온도': 72, '압력': 100}
-del sensors["온도"]
-print(len(sensors))
+# sensors = {"센서명": "모터", "온도": 72}
+# sensors.update({"압력": 100})
+# print(sensors)  # {'센서명': '모터', '온도': 72, '압력': 100}
+# del sensors["온도"]
+# print(len(sensors))
 
-# 실습 3. 딕셔너리로 통계 내기
+# print(f"===============================================================")
+# print(f"실습 3. 딕셔너리로 통계 내기")
+# sensors = {"온도": 72, "압력": 95, "진동": 50}
 
-sensors = {"압력": [80, 85, 95]}
-total = round(sum(sensors["압력"]) / len(sensors["압력"]), 1)
-print(f"평균 : {total}")
-max = 0
-for name, values in sensors.items():
-    for index in values:
-        if index > max:
-            max = index
-print(f"최댓값 센서 : {name} {max}")
+# value_max = 0
+# value_sum = 0
+# for name, value in sensors.items():
+#     value_sum += value
+#     if value > value_max:
+#         value_max = value
+#         max_name = name
+# print(f"평균 : {round(value_sum / len(sensors), 1)}")
+# print(f"최댓값 센서 : {max_name} {value_max}")
 
-# 실습 6. 중첩 딕셔너리로 설비 관리하기
 
-sensors = {"1번펌프": {"온도": 75, "압력": 60}, "2번펌프": {"온도": 95, "압력": 60}}
-print(sensors["1번펌프"]["온도"])  # 95
-for name, info in sensors.items():
-    for names, value in info.items():
-        if value > 90:
-            print(f"{name} 점검 필요")
+# print(f"===============================================================")
+# print(f"실습 4. zip으로 센서명-값 매핑하기")
+
+# sensor_name = ["온도", "압력", "진동"]
+# sensor_value = [10, 20, 30]
+# sensor = dict(zip(sensor_name, sensor_value))
+# print(sensor)
+# for name, value in sensor.items():
+#     print(name, value)
+
+# print(f"===============================================================")
+# print(f"실습 5. 임계값으로 경고 센서 분류하기")
+
+# sensors = {"온도": 15, "압력": 20, "진동": 30}
+# limits = {"온도": 10, "압력": 30, "진동": 40}
+
+# limit_list = []
+
+# for name, value in sensors.items():
+#     if value > limits.get(name, 0):
+#         limit_list.append(name)
+# print(f"경고 센서 : {limit_list}")
+
+# print(f"===============================================================")
+# print(f"실습 6. 중첩 딕셔너리로 설비 관리하기")
+
+# sensors = {"1번펌프": {"온도": 75, "압력": 60}, "2번펌프": {"온도": 95, "압력": 60}}
+# print(sensors["1번펌프"]["온도"])  # 95
+# for name, info in sensors.items():
+#     for names, value in info.items():
+#         if value > 90:
+#             print(f"{name} 점검 필요")
+
+# print(f"===============================================================")
+# print(f"실습 7. 표 데이터를 딕셔너리로 변환하기")
+
+# sensors = {}
+# sensors_list = ["압력, 10", "온도, 20", "진동, 30"]
+# for name in sensors_list:
+#     name = name.split(",")
+#     sensors[name[0]] = float(name[1])
+
+# print(sensors)
+
+# print(f"===============================================================")
+# print(f"실습 8. 센서 데이터 통합 정리")
+
+# sensors = {"온도": 95, "압력": 90, "진동": 100}
+# limits = {"온도": 90, "압력": 80, "진동": 120}
+
+
+# sensors_avg = sum(sensors.values()) / len(sensors)
+# print(round(sensors_avg, 1))
+
+
+# limits_over = set()
+
+# for name, value in sensors.items():
+#     if value > limits.get(name, 0):
+#         limits_over.add(name)
+# print(limits_over)
+
+
+# 간단하게 딕셔너리 예제를 만들어봅시다
+# 보통 리스트 안에 딕셔너리들이 있다면, 그 딕셔너리들은 같은 key들을 갖는게 일반적
+
+location_dict = {
+    "시": [
+        {"이름": "서울특별시", "기초단체": ["종로구", "중구", "마포구"]},
+        {"이름": "대구광역시", "기초단체": ["중구", "수성구", "달서구"]},
+    ],
+    "도": [
+        {"이름": "경기도", "기초단체": ["수원시", "안양시", "안산시"]},
+        {"이름": "경상북도", "기초단체": ["포항시", "경주시", "김천시"]},
+    ],
+}
+
+# 전체 출력
+print(location_dict)
+print("======================")
+
+# 시와 도 단위 딕셔너리들을 각각 출력하기
+print(location_dict["시"])
+# print(locateion_dict.get("시", 0))
+# 위 두개는 동일한 의미임
+print(location_dict.get("도", 0))
+
+# 각 시 도 마다 세부 딕셔너리들을 출력하기
+for basic_dict in location_dict["시"]:
+    print(basic_dict.get("이름"))
+    print(basic_dict.get("기초단체"))
+    print("------------------------")
+
+
+for basic_dict in location_dict.get("도", 0):
+    print(basic_dict.get("이름"))
+    print(basic_dict.get("기초단체"))
+    print("------------------------")
+
+# 오늘 배울 주제
+# 위 코드를 보면 두 개의 for문이 사실상 같은 일을 한다.
+# 그래서 중복되는 부분을 묶고, 다른점만 외부에서 지적해 시키면 돌아가는
+# '함수(functhion)'를 만들면 효율성이 높아진다.
