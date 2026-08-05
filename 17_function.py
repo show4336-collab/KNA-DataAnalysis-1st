@@ -298,22 +298,58 @@
 # 실습 3. 처리 흐름 만들기
 
 
-def judge(temp1, temp2):
-    return temp1 + temp2
+# def judge(temp1, temp2):
+#     return temp1 + temp2
 
 
-temp_sum = judge(80, 90)
+# temp_sum = judge(80, 90)
 
 
-def judge2(status="정상", avg=temp_sum / 2, avg_limit=90):
-    if avg < avg_limit:
-        return print(f"평균 {avg} → {status}")
-    else:
-        status = "경고"
-        return print(f"평균 {avg} → {status}")
+# def judge2(status="정상", avg=temp_sum / 2, avg_limit=90):
+#     if avg < avg_limit:
+#         return print(f"평균 {avg} → {status}")
+#     else:
+#         status = "경고"
+#         return print(f"평균 {avg} → {status}")
 
 
-judge2()
+# judge2()
 
 
 # 실습 4. 센서 분석 함수 세트 만들기
+# function_review
+# 함수의 기본 예제
+# def say_hello():
+# pass  # 아무일도 안하는 코드
+
+
+# def say_hi():
+# print("안녕하세요")
+
+
+# 함수는 선언된(def) 후에 호출되야 한다.
+# say_hi()
+
+
+# 매개변수를 사용하면 더 다양한 일을 할 수 있습니다.
+# def show_hello(name):
+# print(f"안녕하세요, {name}")
+
+
+# show_hello("Ned")
+
+# 매개변수는 여러 값을 받을 수 있고
+# def show_hi(name, message):
+# message = "반갑습니다"
+# print(f'{message}, {name}')
+
+# show_hi("Ned", "안녕하세요")
+
+
+# 매개변수에는 따로 안알려주면 기본값을 적용할 수도 있습니다.
+# def show_greeting(name, message="안녕하세요"):
+#     print(f"{message}, {name}")
+
+
+# show_greeting("Layla")
+# show_greeting("Jack", message="Hello")

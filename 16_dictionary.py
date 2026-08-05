@@ -308,40 +308,62 @@
 # 간단하게 딕셔너리 예제를 만들어봅시다
 # 보통 리스트 안에 딕셔너리들이 있다면, 그 딕셔너리들은 같은 key들을 갖는게 일반적
 
-location_dict = {
-    "시": [
-        {"이름": "서울특별시", "기초단체": ["종로구", "중구", "마포구"]},
-        {"이름": "대구광역시", "기초단체": ["중구", "수성구", "달서구"]},
-    ],
-    "도": [
-        {"이름": "경기도", "기초단체": ["수원시", "안양시", "안산시"]},
-        {"이름": "경상북도", "기초단체": ["포항시", "경주시", "김천시"]},
-    ],
-}
+# location_dict = {
+#     "시": [
+#         {"이름": "서울특별시", "기초단체": ["종로구", "중구", "마포구"]},
+#         {"이름": "대구광역시", "기초단체": ["중구", "수성구", "달서구"]},
+#     ],
+#     "도": [
+#         {"이름": "경기도", "기초단체": ["수원시", "안양시", "안산시"]},
+#         {"이름": "경상북도", "기초단체": ["포항시", "경주시", "김천시"]},
+#     ],
+# }
 
 # 전체 출력
-print(location_dict)
-print("======================")
+# print(location_dict)
+# print("======================")
 
 # 시와 도 단위 딕셔너리들을 각각 출력하기
-print(location_dict["시"])
+# print(location_dict["시"])
 # print(locateion_dict.get("시", 0))
 # 위 두개는 동일한 의미임
-print(location_dict.get("도", 0))
+# print(location_dict.get("도", 0))
 
 # 각 시 도 마다 세부 딕셔너리들을 출력하기
-for basic_dict in location_dict["시"]:
-    print(basic_dict.get("이름"))
-    print(basic_dict.get("기초단체"))
-    print("------------------------")
+# for basic_dict in location_dict["시"]:
+#     print(basic_dict.get("이름"))
+#     print(basic_dict.get("기초단체"))
+#     print("------------------------")
 
 
-for basic_dict in location_dict.get("도", 0):
-    print(basic_dict.get("이름"))
-    print(basic_dict.get("기초단체"))
-    print("------------------------")
+# for basic_dict in location_dict.get("도", 0):
+#     print(basic_dict.get("이름"))
+#     print(basic_dict.get("기초단체"))
+#     print("------------------------")
 
 # 오늘 배울 주제
 # 위 코드를 보면 두 개의 for문이 사실상 같은 일을 한다.
 # 그래서 중복되는 부분을 묶고, 다른점만 외부에서 지적해 시키면 돌아가는
 # '함수(functhion)'를 만들면 효율성이 높아진다.
+
+
+# function_review
+# 함수의 기본 예제
+# def say_hello():
+# pass  # 아무일도 안하는 코드
+
+
+# def say_hi():
+# print("안녕하세요")
+
+
+# 함수는 선언된(def) 후에 호출되야 한다.
+# say_hi()
+
+
+# 매개변수를 사용하면 더 다양한 일을 할 수 있습니다.
+# def show_hello(name):
+#     print(f"안녕하세요, {name}")
+
+
+# show_hello("Ned")
