@@ -84,3 +84,17 @@ for file in dict_list:
 for csv_dict in csv_list:
     path = os.getcwd()
     print(f"({path} 목록 {csv_dict}")
+
+# 실습 5. csv.writer로 csv 쓰기
+
+import os
+import csv
+
+cwd = os.getcwd()
+
+csv_path = os.path.join(cwd, "result.csv")
+
+with open(csv_path, "w", encoding="utf-8", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerow(["설비이름", "온도"])
+    writer.writerow(["PUMP-1", 89])
