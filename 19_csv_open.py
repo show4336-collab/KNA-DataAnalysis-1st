@@ -126,17 +126,17 @@
 
 # csv.writer - 코드로 확인
 
-# import os
-# import csv
+import os
+import csv
 
-# path = os.getcwd()
+path = os.getcwd()
 
-# csv_path = os.path.join(path, "result.csv")
+csv_path = os.path.join(path, "result.csv")
 
-# with open("result.csv", "w", encoding="utf-8") as f:
-#     writer = csv.writer(f)
-#     writer.writerow(["시각", "설비"])
-#     writer.writerow(["09:00", "PUMP-01"])
+with open("result.csv", "w", encoding="utf-8") as f:
+    writer = csv.writer(f)
+    writer.writerow(["시각", "설비"])
+    writer.writerow(["09:00", "PUMP-01"])
 
 # 실습 5. csv.writer로 csv 쓰기
 
@@ -229,13 +229,13 @@
 
 # 실습 3. 구체적 예외로 입력 검증하기
 
-press_1st = input("압력 : ")
+# press_1st = input("압력 : ")
 
-print(f"입력한 압력은 {press_1st}")
+# print(f"입력한 압력은 {press_1st}")
 
-try:
-    press = int(press_1st)
-except ValueError:
-    print("숫자를 입력해야해요.")
-except ZeroDivisionError:
-    print("0으로 나눴나요?")
+# try:
+#     press = int(press_1st)
+# except ValueError:
+#     print("숫자를 입력해야해요.")
+# except ZeroDivisionError:
+#     print("0으로 나눴나요?")
