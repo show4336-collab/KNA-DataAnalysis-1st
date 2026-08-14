@@ -439,7 +439,7 @@ import pandas as pd
 
 # print('실습 4. loc와 iloc로 행 선택하기')
 
-import pandas as pd
+# import pandas as pd
 
 # df = pd.read_csv(".venv/13_diecasting_shot.csv")
 # print(df.loc[0])
@@ -474,3 +474,145 @@ import pandas as pd
 # # print(df_shot[cols].iloc[0:10].shape)  # 결과는? (10, 5)
 # print(df_shot.loc[:10, ["주조압력", "사이클타임"]].shape)  # 결과는 ? (11, 2)
 # print(df_shot.iloc[:10, :6].shape)  # (10, 6)
+
+
+# def line():
+#     print("=" * 40)
+
+
+# line()
+# print('실습 1. 단일 조건으로 행 추출하기')
+# import pandas as pd
+
+# df = pd.read_csv(".venv/13_diecasting_small.csv")
+# df.info()
+# df_pressure = df["실린더압력"] >= 230
+
+# print(len(df_pressure))  # 30
+# print(df_pressure.sum())  # 5
+
+# line()
+# print('실습 2. 임계값 넘는 설비 골라내기')
+# df = pd.read_csv(".venv/13_diecasting_small.csv")
+
+# 만든 조건을 데이터프레임 대괄호에 넣어 임계값 초과 설비만 추출
+# 전체 df를 대상으로 앞서 특정 컬럼에 대한 불리언 시리즈를
+# 컬럼 요구하는 [] 사이에 넣어주면,
+# 각 줄마다 비교를 해서 True인 경우만 추려 새로운 df를 만든다.
+# s_limit = df["비스킷두께"] >= 16  # series
+# print(df[s_limit])
+# 위, 아래는 동일한 코드임.
+# print(df[df["비스킷두께"] >= 16])
+# print(len(df[df["비스킷두께"] >= 16]))  # 5
+
+# df_sub = df[df["비스킷두께"] >= 16]
+# print(df_sub[["샷", "비스킷두께"]])
+# 위, 아래는 동일한 코드임
+# print(df[df["비스킷두께"] >= 16][["샷", "비스킷두께"]])
+
+
+# line()
+
+# df = pd.read_csv(".venv/13_diecasting_small.csv")
+# df_sub_1 = df[df["비스킷두께"] >= 13]
+# df_sub_1.info()  # 6 entries
+
+# df_sub_2 = df[df["사이클타임"] >= 25]
+# df_sub_2.info() # 6 entries
+# df_both = df[(df["비스킷두께"] >= 13) & (df["사이클타임"] >= 25)]
+# print(df_both)
+# print(len(df_both))  # 5
+
+
+# df_both = df[(df["비스킷두께"] >= 13) | (df["사이클타임"] >= 25)]
+# print(df_both)
+# print(len(df_both))  # 7
+
+# df = pd.read_csv(".venv/13_diecasting_small.csv")
+
+
+# 범위 검사 between
+# print(
+# df[(df["비스킷두께"].between(13, 20))]
+# )  # 비스킷두께 13이상 20이하인 값의 행들을 보여줌.
+# print((df["비스킷두께"].between(13, 20)))  # True, False로 반환.
+
+
+# 부정 뒤집기 ~(조건).isin(목록)
+
+# .str.contains('문자')
+# print(df["품질등급"].str.contains("양품"))  # True, False로 반환.
+# print(df[df["품질등급"].str.contains("양품")])  # 품질등급이 양품인 행들만 출력 / 문자열만 가능!
+
+
+# print()
+
+# line()
+# print("실습 3. 두 조건 묶기")
+# df = pd.read_csv(".venv/13_diecasting_shot.csv")
+
+# df_both = df[(df["비스킷두께"] >= 13) & (df["사이클타임"] >= 25)]
+# print(len(df_both))  # 83
+
+# df_either = df[(df["비스킷두께"] >= 13) | (df["사이클타임"] >= 25)]
+# print(len(df_either))  # 104
+
+
+# line()
+# print("실습 4. 부정 목록 범위 조건")
+
+# df = pd.read_csv(".venv/13_diecasting_shot.csv")
+# print(df["품질등급"] == "불량")  # True, False 반환
+# print(df[df["품질등급"] == "불량"].head())  # 추려본 내용에 불량만 5개
+# print(len(df[df["품질등급"] == "불량"]))  # 20
+
+# 불량이 아닌 것들은?
+# print(df[~(df["품질등급"] == "불량")].head())  # 불량 아닌 것들 5개
+# print(len(df[~(df["품질등급"] == "불량")]))  # 180
+# print(len(df[(df["품질등급"] == "양품") | (df["품질등급"] == "주의")]))  # 180
+
+# print(len(df["품질등급"].isin(["양품", "주의"])))  # True, False로 반환되서 200
+# print(len(df[df["품질등급"].isin(["양품", "주의"])]))  # 180
+
+# between으로 실린더압력값 지정 범위에 든 행 추출 : 210 ~ 230
+# print(df[df["실린더압력"].between(210, 230)].head())
+# print(len(df[df["실린더압력"].between(210, 230)]))  # 89
+
+# 그 외의 것들로
+
+# print(len(df[~df["실린더압력"].between(210, 230)]))  # 111
+
+# 조건에 ~ 를 해야함. / True, False로 반환되는 값 앞에 해야함.
+
+
+# ==========================================================
+# line()
+# print("실습 5. 위험 순으로 정렬하기")
+
+df = pd.read_csv(".venv/13_diecasting_shot.csv")
+
+# print(df.sort_values("비스킷두께", ascending=False).head(5))
+
+# 직접 해당 값들만 뽑아서 list로 출력해보려면? 일단 series 추출하고 .tolist() 호출
+# print(df.sort_values("비스킷두께", ascending=False)["비스킷두께"].head(5).tolist())
+
+# 여러 열을 리스트로 묶어 우선순위 다중 정렬
+# 형체력을 우선 오름차순으로 정렬하고
+# 비스킷두께를 그 다음 순서로 내림차순 정렬하기
+# print(df.sort_values(["형체력", "비스킷두께"], ascending=[True, False]).head(5))
+
+
+# line()
+# print("실습 6. 필터링과 정렬 연결")
+# 조건으로 거른 결과에 정렬을 이어 붙이기
+
+# 고장 여부 조건으로 고장 설비만 먼저 거르기
+df_filtered = df[df["품질등급"] == "불량"]
+print(df_filtered.head(5))
+
+# 거른 결과에 sort_values를 점으로 이어 비스킷두께 내림차순 정렬
+df_filtered_after = (
+    df[df["품질등급"] == "불량"].sort_values("비스킷두께", ascending=False).head(5)
+)
+
+print(df_filtered_after)
