@@ -129,7 +129,7 @@
 # .columns 출력 df.columns.tolist() 도 출력
 # .dtypes 출력
 
-import pandas as pd
+# import pandas as pd
 
 # df = pd.read_csv('.venv/12_metro_digital.csv', encoding='utf-8')
 # print(df.shape) # (120, 4)
@@ -589,7 +589,7 @@ import pandas as pd
 # line()
 # print("실습 5. 위험 순으로 정렬하기")
 
-df = pd.read_csv(".venv/13_diecasting_shot.csv")
+# df = pd.read_csv(".venv/13_diecasting_shot.csv")
 
 # print(df.sort_values("비스킷두께", ascending=False).head(5))
 
@@ -607,12 +607,237 @@ df = pd.read_csv(".venv/13_diecasting_shot.csv")
 # 조건으로 거른 결과에 정렬을 이어 붙이기
 
 # 고장 여부 조건으로 고장 설비만 먼저 거르기
-df_filtered = df[df["품질등급"] == "불량"]
-print(df_filtered.head(5))
+# df_filtered = df[df["품질등급"] == "불량"]
+# print(df_filtered.head(5))
 
 # 거른 결과에 sort_values를 점으로 이어 비스킷두께 내림차순 정렬
-df_filtered_after = (
-    df[df["품질등급"] == "불량"].sort_values("비스킷두께", ascending=False).head(5)
-)
+# df_filtered_after = (
+#     df[df["품질등급"] == "불량"].sort_values("비스킷두께", ascending=False).head(5)
+# )
 
-print(df_filtered_after)
+# print(df_filtered_after)
+
+# import pandas as pd
+
+# df = pd.read_csv(".venv/13_diecasting_shot.csv")
+
+# df.info()
+
+# print(len(df[~(df["품질등급"] == "불량")]))
+# print(sum(df["품질등급"].isin(["양품", "주의"])))  # 180
+# print(sum(df["품질등급"].isin(["양품"])))  # 162
+# print(sum(df["품질등급"].isin(["주의"])))  # 18
+# print(sum(df["품질등급"].isin(["불량"])))  # 20
+# isin.([])은 (안에 리스트로 넣어야함 [])
+
+
+# print(df[df["비스킷두께"].between(10, 15)])
+
+# pandas에서 원본에 변경을 주려면 꼭 .copy()를 해야함.
+# 안그러면 SettingWithCopyWarning 경고 발생
+
+# import pandas as pd
+
+# df = pd.read_csv(".venv/13_diecasting_shot.csv")
+# df.info()
+
+# df_bad = df[df["품질등급"] == "불량"].copy()
+
+
+# df_bad["품질등급"] = "점검"
+# print(df_bad.head(5))
+
+# line()
+# print("실습 7. 이상 의심 설비 리포트")
+
+
+# 워크플로우 5단계 맞춰가기
+
+# 1. 불러오기
+# df = pd.read_csv(".venv/13_diecasting_shot.csv", encoding="utf-8")
+
+
+# 2. 확인하기
+# df.info()
+
+# 3. 필터링
+# df_warning = df[(df["비스킷두께"] >= 16) | (df["사이클타임"] >= 100)]
+# print(len(df_warning))  # 76
+
+# 4. 정렬(내림차순)
+
+# df_report = df_warning.sort_values("형체력", ascending=False)[
+#     ["샷", "품질등급", "형체력", "사이클타임"]
+# ]
+
+# print(len(df_report))
+
+# 5. 선택
+
+# very_danger = df_report.head(1)
+# sid = int((very_danger["샷"]).tolist()[0])
+# force = very_danger["형체력"].tolist()[0]
+# print(f"가장 시급한 샷 : {sid}, 형체력 {force}, 우선 점검")
+# # 가장 시급한 샷 : 172, 형체력 384.0, 우선 점검
+
+# 불량 = df[df["품질등급"] == "불량"].sort_values("형체력", ascending=False)
+# print(불량[["샷", "형체력"]].head)
+
+
+# =============================================
+import pandas as pd
+
+# df = pd.read_csv(".venv/14_hydraulic.csv", encoding="utf-8")
+
+
+# df_old = df[df["냉각기상태"] == "고장"]
+# print(len(df_old))  # 40
+# 하지만 이 방식으로 모든 상태를 일일이 찾아서 통계내는 것은 비효율적
+
+# 냉각기상태별 사이클 건수 세기
+# print(df["냉각기상태"].value_counts())
+# 냉각기상태 고장 40 저하 40 정상 40
+
+# result 열의 정상 고장 건수 세기
+# print(df["result"].value_counts())
+# result 정상 67 고장 53
+
+# normalize로 비율 구하기
+# value_count.(normalize=True)
+
+# print(df["result"].value_counts(normalize=True).round(3))
+# .round(자릿수) 판다스 메써드
+
+# print(df["result"].value_counts(normalize=True).round(3) * 100)
+
+# sort=False
+# dropna=False
+# print(df["result"].value_counts(dropna=False))
+# NaN 같은 결측값도 세줌
+
+# print(df["온도"].value_counts())
+# 위와 같이 범위 없이 개별 경우의 수를 따지면 ~개가 된다.
+# 그래서 범위를 설정해 경우의 수를 줄여보기 -> 범주화
+
+# band = pd.cut(df["온도"])
+# print(band.value_counts()) # Type Error bin을 넣어야함
+# pd.cut으로 수치형을 구간으로 묶어 세기
+# 형식 : pd.cut(df['수치열'], bins=[경계...], labels=[이름..]) # 구간 라벨 series
+# 엣지 : 경계(bins)는 이름표 labels보다 반드시 하나 많아야 함(경계 4개 -> 구간 3개)
+# band = pd.cut(df["온도"], bins=[0, 40, 50, 200], labels=["낮음", "보통", "높음"])
+# print(band.value_counts())
+# 온도 낮음 41, 보통 40, 높음 39
+
+# line()
+# print("실습 1. value_counts로 빈도 세기")
+
+# 설비 데이터를 불러와 앞부분과 구조 확인
+# 설비 열(컬럼)에 value_counts를 붙여 값별 개수 세기
+# print(df["밸브상태"].value_counts())
+# 정상 61, 지연 20, 경미 20, 심각 19
+
+# print(df["운전부하"].value_counts())
+# 고부하 60, 저부하 60
+
+# line()
+# print("실습 2. 비율과 불균형 데이터")
+
+# df_qc = pd.read_csv(".venv/14_hydraulic_qc.csv", encoding="utf-8")
+
+# df_qc.info()
+# print(df_qc.head(3))
+# print(df_qc["검사결과"].value_counts())
+# 합격 188 불합격 12
+
+# print(df_qc["검사결과"].value_counts(normalize=True).round(3))
+# 합격 0.94 불합격 0.06
+
+# line()
+# print("실습 3. 구간으로 묶어 세기")
+# pd.cut으로 수치형 값을 구간으로 묶어 빈도 세기
+# 수치형 센서 값을 구간으로 나눠 분포 확인
+
+# 진동 열(컬럼)의 최솟값과 최댓값으로 값의 범위 확인
+
+# df = pd.read_csv(".venv/14_hydraulic.csv", encoding="utf-8")
+# print(df.head(3))  # 0.577 ~ 0.640 ??
+# print(df["진동"].max())  # 0.779
+# print(df["진동"].min())  # 0.53
+
+# pd.cut()올 경계와 이름표를 정해 세 구간으로 묶기
+# band = pd.cut(
+#     df["진동"], bins=[0, 0.6, 0.7, 10], labels=["약함", "보통", "강함"]
+# ).value_counts()
+# print(band)  # 보통 55 약함 48 강함 17
+
+
+# band = (
+#     pd.cut(df["진동"], bins=[0, 0.6, 0.7, 10], labels=["약함", "보통", "강함"])
+#     .value_counts(normalize=True)
+#     .round(3)
+# )
+# print(band)  # 보통 0.458 약함 0.400 강함 0.142
+
+# groupby()
+# df = pd.read_csv(".venv/14_hydraulic.csv", encoding="utf-8")
+
+# print(df.head(3))
+
+# '냉각기상태' 컬럼의 내용별로 그룹핑을 하자 -> 분할
+# 분할된 df마다 '온도' 컬럼이 있으니까, '온도'의 평균을 구해보자.
+# print(df.groupby("냉각기상태")["온도"].mean().round(2))
+# 고장 54.67 저하 45.46 정상 35.89
+
+# 온도 말고 냉각기상태별 진동 평균도 알고 싶다면? Series
+
+# print(df.groupby("냉각기상태")["진동"].mean().round(2))
+# 고장 0.69 저하 0.61 정상 0.55
+
+# 냉각기상태에 따른 온도와 진동의 평균값을 동시에 DataFrame
+# print(df.groupby("냉각기상태")[["온도", "진동"]].mean().round(2))
+
+# print(df.groupby(["냉각기상태", "운전부하"])["온도"].mean().round(2))
+
+# 고장 고부하 55.51
+#      저하부 54.05
+# 저하 고부하 44.07
+#      저부하 44.07
+# 정상 고부하 35.89
+
+# def line():
+#     print("=" * 40)
+
+
+# import pandas as pd
+
+# df = pd.read_csv(".venv/students_groupby_practice.csv", encoding="utf-8")
+
+# line()
+# print("[문제 1] 이 학교의 전체 학생 수를 구하세요.")
+
+# print(len(df))  # 60
+
+
+# line()
+# print("[문제 2] 학년별 학생 수를 구하세요.")
+# print(df.groupby("학년").size())
+# print(df["학년"].value_counts())  # 1 20 2 20 3 20
+
+# line()
+# print("[문제 3] 학년 내 각 반별 학생 수를 구하세요.")
+# print((df.groupby(["학년", "반"]).size()))
+# print(df[["학년", "반"]].value_counts())
+
+# line()
+# print("[문제 4] 각 반(학년, 반 조합)의 국어 점수 평균을 소수점 둘째 자리까지 구하세요.")
+# print(df.groupby(["학년", "반"])["국어"].mean().round(2))
+
+# line()
+# print("[문제 5] 각 학년의 영어 점수 평균을 소수점 둘째 자리까지 구하세요.")
+# print(df.groupby("학년")["영어"].mean().round(2))
+
+# line()
+# print("[문제 6] 학교 전체의 수학 점수 평균을 소수점 둘째 자리까지 구하세요.")
+# print(df["수학"].mean().round(2))
+
+# line()
