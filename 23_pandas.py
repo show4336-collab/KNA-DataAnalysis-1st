@@ -841,3 +841,398 @@ import pandas as pd
 # print(df["수학"].mean().round(2))
 
 # line()
+
+
+# import pandas as pd
+
+# df = pd.read_csv(".venv/14_hydraulic.csv", encoding="utf-8")
+
+# print(df.groupby("냉각기상태")["온도"].mean().round(2))
+# 고장 54.67 저하 45.46 정상 35.89
+
+# groupby로 운전부하마다 평균 진동
+# print(df.groupby("운전부하")["온도"].mean().round(3))
+# 고부하 41.853 저부하 48.825
+
+# 냉각기상태별로 다시 운전부하별 그룹을 나누어 평균 온도
+# print(df.groupby(["냉각기상태", "운전부하"])["온도"].mean().round(2))
+# 냉각기상태  운전부하
+# 고장     고부하     55.51
+#       저부하     54.05
+# 저하     고부하     44.07
+#        저부하     45.58
+# 정상     고부하     35.89
+
+# 냉각기상태별 얼마나 많은 항목이 있을까?
+
+# print(len(df[df["냉각기상태"] == "고장"]))
+# 위 코드처럼 각 상태별로 갯수를 따로따로 계산하는 것은 비효율적
+# print(df["냉각기상태"].value_counts())
+
+
+def line():
+    print("=" * 40)
+
+
+# import pandas as pd
+
+# df = pd.read_csv(".venv/14_hydraulic.csv", encoding="utf-8")
+
+# line()
+
+# print("실습 4. groupby로 그룹 집계")
+
+# 냉각기상태별 압력 평균
+
+# print(df.groupby("냉각기상태")["압력"].mean().round(2))
+# 고장    163.68
+# 저하    158.49
+# 정상    160.84
+
+# 집계 함수를 바꿔 설비별 최고 온도 확인 - max, min
+# print(df.groupby("밸브상태").size())
+# 경미    20
+# 심각    19
+# 정상    61
+# 지연    20
+# print(df.groupby("result")["온도"].max())
+# 고장    57.8
+# 정상    57.2
+
+# 운전부하별로 size로 갯수 세기 (결측 - null값 갯수도 포함)
+# print(df.groupby("운전부하").size())
+# 고부하    60
+# 저부하    60
+
+# line()
+
+# print("실습 5. 그룹별 평균 비교와 정렬")
+
+
+# 설비로 그룹을 나눠 진동 평균 집계
+# print(df.groupby("밸브상태")["진동"].mean().round(3))
+# 집계 결과에 정렬을 이어 붙여 내림차순으로 정렬
+# print(df.groupby("밸브상태")["진동"].mean().round(3).sort_values(ascending=False))
+# 심각    0.629
+# 지연    0.621
+# 경미    0.617
+# 정상    0.609
+
+
+# line()
+
+# print("실습 6.여러 기준 조합 그룹")
+
+# 냉각기상태, 운전부하 기준순서를 잡아 각 그룹별 진동평균
+
+# 라인과 교대 두 기준을 묶어 진동 평균 집계
+# print(df.groupby(["냉각기상태", "운전부하"])["진동"].mean().round(3))
+# 고장     고부하     0.726
+#        저부하     0.660
+# 저하     고부하     0.616
+#        저부하     0.610
+# 정상     고부하     0.549
+
+# 같은 두 기준으로 size를 구해 조합별 측정 건수 확인
+# print(df.groupby(["냉각기상태", "운전부하"]).size())
+# 고장     고부하     17
+#        저부하     23
+# 저하     고부하      3
+#        저부하     37
+# 정상     고부하     40
+
+# line()
+
+# print("실습 7.빈도와 그룹 집계 종합")
+
+# value_counts로 설비 구성과 정상·고장 비율 파악
+# print(df["밸브상태"].value_counts())  # count니까 null값은 무시
+# 정상    61
+# 지연    20
+# 경미    20
+# 심각    19
+# print(df["밸브상태"].value_counts(normalize=True).round(3))
+# 정상    0.508
+# 지연    0.167
+# 경미    0.167
+# 심각    0.158
+# 고장 행만 걸러 라인별 고장 건수 집계
+# print(len(df[df["result"] == "고장"]))  # 53
+# print(df.groupby("result").size())  # 고장 53 정상 67
+# print(df["result"].value_counts())  # 정상 67 고장 53
+# groupby로 설비별 온도·진동 평균까지 비교
+# print(df.groupby("냉각기상태")[["온도", "진동"]].mean().round(3))
+
+# line()
+
+# import pandas as pd
+
+# df = pd.read_csv(".venv/14_equipment_sensor.csv", encoding="utf-8")
+# print(df.columns)
+
+# print(df.groupby("line")["temp"].mean().round(1))
+# A라인    76.9
+# B라인    77.7
+# C라인    79.9
+
+# 평균과 분산 결과를 종합해서 보기
+# 1. 고장 : 높은 평균 온도 + 개별 온도는 더 들쑥날쑥
+# 2. 저하 : 전체평균과 비슷한 평균온도 + 많이 모여있는 개별 온도
+# 3. 정상 : 전체평균보다 확실히 낮은 평균온도 + 평균에 거의 집중된 개벼 온도
+
+# 표준편차 구하기
+# print(df.groupby("line")["temp"].std().round(1))
+# A라인    10.2
+# B라인     7.6
+# C라인    10.4
+
+
+# df = pd.read_csv(".venv/14_hydraulic.csv", encoding="utf-8")
+
+
+# print(df.groupby("냉각기상태")["온도"].mean().round(2))
+# 고장    54.67
+# 저하    45.46
+# 정상    35.89
+
+# print(df.groupby("냉각기상태")["온도"].std().round(2))
+# 고장    3.76
+# 저하    1.47
+# 정상    0.36
+
+# agg : aggregate
+# 냉각기상태별 온도의 평균과 표준편차를 한번에 정리하기
+
+# print(df.groupby("냉각기상태")["온도"].agg(["mean", "std"]).round(2))
+#         mean   std
+# 냉각기상태
+# 고장     54.67  3.76
+# 저하     45.46  1.47
+# 정상     35.89  0.36
+
+# 다른 방식
+# print(
+#     df.groupby("냉각기상태")
+#     .agg(
+#         평균온도=("온도", "mean"),
+#         온도편차=("온도", "std"),
+#         평균진동=("진동", "mean"),
+#         측정수=("온도", "count"),
+#     )
+#     .round(2)
+# )
+
+#         평균온도  온도편차  평균진동  측정수
+# 냉각기상태
+# 고장     54.67  3.76  0.69   40
+# 저하     45.46  1.47  0.61   40
+# 정상     35.89  0.36  0.55   40
+
+
+# def line():
+#     print("=" * 40)
+
+
+# import pandas as pd
+
+# df = pd.read_csv(".venv/14_hydraulic.csv", encoding="utf-8")
+
+# line()
+
+# print("실습 1. 평균·분산·표준편차 구하기")
+
+
+# 진동 열 전체의 평균·분산·표준편차를 각각 구하기
+# print(df["진동"].mean().round(3))  # 0.616
+# print(df["진동"].var().round(3))  # 0.004
+# print(df["진동"].std().round(3))  # 0.064
+# 표준편차를 제곱하면 분산과 같아지는지 확인
+# print(0.064 * 0.064)  # 0.004096
+# 라인으로 그룹을 나눠 라인별 평균과 표준편차 비교
+# print(df.groupby("냉각기상태")["진동"].mean().round(3))
+# print(df.groupby("냉각기상태")["진동"].std().round(3))
+# # 전체 통계와 라인별 평균·표준편차 출력 (표준편차²=분산
+# print(df.groupby("냉각기상태")["진동"].agg(["mean", "std"]).round(3))
+
+# print(
+#     df.groupby("냉각기상태")
+#     .agg(평균온도=("온도", "mean"), 표준편차=("온도", "std"))
+#     .round(3)
+# )
+
+# line()
+
+
+# df = pd.read_csv(".venv/14_hydraulic_qc.csv", encoding="utf-8")
+# print("실습 2. 그룹별 통계 응용")
+
+# print(df.head(2))
+# print(df.tail(2))
+# 판정 열로 그룹을 나눠 주요 지표들의 평균 집계
+# print(df.groupby("검사결과")[["지표01", "지표02"]].mean().round(2))
+
+# 같은 그룹 기준으로 표준편차를 구해 흩어짐 비교
+# print(df.groupby("검사결과")[["지표01", "지표02"]].std().round(2))
+
+
+# 두 그룹의 통계 차이를 읽어 불량의 특징 관찰
+# 합격이 불합격보다 표준편차가 훨씬 작다.
+
+
+# 합격·불합격별 지표 평균·표준편차 표 출력
+# print(
+#     df.groupby("검사결과")
+#     .agg(평균=("지표01", "mean"), 표준편차=("지표01", "std"))
+#     .round(2)
+# )
+
+# line()
+
+
+# df = pd.read_csv(".venv/14_hydraulic.csv", encoding="utf-8")
+# print("실습 3. agg로 여러 통계 한 번에")
+
+
+# 교대로 그룹을 나눠 진동의 평균·표준편차·최댓값을 리스트로 한 번에 -> 운전부하별그룹
+# print(df.groupby("운전부하")["진동"].agg(["mean", "std", "max"]).round(2))
+
+# 이름 붙이기 방식으로 설비별 평균온도·평균진동·측정수 요약 -> 밸브상태
+# print(
+#     df.groupby("밸브상태")
+#     .agg(평균온도=("온도", "mean"), 평균진동=("진동", "mean"), 측정수=("온도", "count"))
+#     .round(2)
+# )
+
+#        평균온도  평균진동  측정수
+# 밸브상태
+# 경미    44.86  0.62   20
+# 심각    46.02  0.63   19
+# 정상    45.11  0.61   61
+# 지연    45.86  0.62   20
+
+# line()
+
+
+# df = pd.read_csv(".venv/14_hydraulic.csv", encoding="utf-8")
+# print("실습 4. agg 진단표 만들기")
+
+
+# 설비로 그룹을 나눠 측정수·평균온도·온도편차·평균진동·평균압력을 이름 붙여 집계
+# report = (
+#     df.groupby("밸브상태")
+#     .agg(
+#         측정수=("온도", "count"),
+#         평균온도=("온도", "mean"),
+#         온도편차=("온도", "std"),
+#         평균진동=("진동", "mean"),
+#         평균압력=("압력", "mean"),
+#     )
+#     .round(2)
+# )
+
+# print(report)
+# 온도편차를 기준으로 내림차순 정렬
+# print(report.sort_values("온도편차", ascending=False))
+
+
+# line()
+
+
+# df = pd.read_csv(".venv/14_hydraulic.csv", encoding="utf-8")
+# print("실습 5. 그룹별 통계량 종합")
+
+# 온도 열의 전체 평균과 표준편차로 기준선 파악
+# print(df["온도"].mean().round(2))  # 45.34
+# print(df["온도"].std().round(2))  # 8.04
+# 라인별 평균과 중앙값을 함께 구해 치우침 확인
+# print(df.groupby("냉각기상태")["온도"].agg(["mean", "median"]).round(2))
+# 냉각기상태
+# 고장     54.67   55.45
+# 저하     45.46   44.90
+# 정상     35.89   35.90
+
+
+# 설비 진단표를 온도편차 순으로 정렬해 우선 점검 대상 선정
+# report = (
+#     df.groupby("밸브상태")
+#     .agg(평균온도=("온도", "mean"), 온도편차=("온도", "std"), 평균진동=("진동", "mean"))
+#     .round(2)
+# )
+# print(report.sort_values("온도편차", ascending=False))
+
+
+import pandas as pd
+
+df = pd.read_csv(".venv/14_hydraulic.csv", encoding="utf-8")
+
+# corr 한 줄로 계산하는 상관계수 correlation
+# cor1 = df["온도"].corr(df["진동"])
+# print(cor1)  # 0.9307966383117148
+# print(cor1.round(3))  # 0.931
+# print(df["온도"].corr(df["진동"]).round(3))  # 0.931 높은 상관관계
+# print(df["온도"].corr(df["압력"]).round(3))  # 0.284 낮은 상관관계
+# print(df["압력"].corr(df["진동"]).round(3))  # 0.524 중간쯤 상관관계
+
+# 세가지를 동시에 비교하자
+# print(df[["온도", "진동", "압력"]].corr().round(3))
+#        온도     진동     압력
+# 온도  1.000  0.931  0.284
+# 진동  0.931  1.000  0.524
+# 압력  0.284  0.524  1.000
+
+import pandas as pd
+
+line()
+
+df = pd.read_csv(".venv/14_hydraulic_qc.csv", encoding="utf-8")
+# print("실습 1. 상관계수와 상관 행렬 구하기")
+
+# corr로 두 지표의 상관계수를 구해 부호와 절댓값 해석
+# 여러 지표 열을 골라 corr로 상관 행렬 생성
+# 대각선(항상 1)과 대칭 구조를 확인하고 절댓값 큰 칸 찾기
+print(df[["지표01", "지표02", "지표03", "지표04"]].corr().round(3))  # -0.983
+
+
+line()
+
+df = pd.read_csv(".venv/14_hydraulic_qc.csv", encoding="utf-8")
+# print("실습 2. 강한 상관 쌍 찾기")
+
+# 여러 지표 열로 상관 행렬을 만들기
+feat = ["지표%02d" % i for i in range(1, 11)]
+print(feat)
+cm = df[feat].corr().round(3)
+# print(cm)
+# 이중 반복으로 대각선을 제외한 각 쌍의 상관계수 확인
+# 위 cm 자료에서 0.4 이상의 상관관계가 크다 판단되는 경우를 뽑아보기
+for i in range(len(cm.columns)):
+    print(f"{i}번째 컬럼 이름 {cm.columns[i]}")
+
+    # i + 1번부터 챙겨 비교해야, 대각선 중심의 반대편을 중복 비교하지 않게 할 수 있다.
+    for j in range(i + 1, len(cm.columns)):
+
+        c = cm.iloc[i, j]
+        # print(f'{i}번째 컬럼 {cm.columns[i]}과 비교할 {cm.columns[j]} : {c}') #
+        # 8번째 컬럼 지표09와 비교할 지표10 : -0.951
+        # abs로 - 부호 없는 절대값 만들기
+        if abs(c) > 0.4:
+            print(
+                f"{i}번째 컬럼 {cm.columns[i]}과 비교할 {cm.columns[j]} : {c} -> 강한 상관계수"
+            )
+            # 별도의 배열을 만들어 해당 배열에 결과를 추가하고
+            # 반복문이 끝나면 바깥에서 출력 처리 및 가장 큰 값도 찾고, 강한쌍이 몇개인지도 출력
+
+
+# 0번째 컬럼 이름 지표01
+# 1번째 컬럼 이름 지표02
+# 2번째 컬럼 이름 지표03
+# 3번째 컬럼 이름 지표04
+# 4번째 컬럼 이름 지표05
+# 5번째 컬럼 이름 지표06
+# 6번째 컬럼 이름 지표07
+# 7번째 컬럼 이름 지표08
+# 8번째 컬럼 이름 지표09
+# 9번째 컬럼 이름 지표10
+
+# 절댓값이 기준 이상인 쌍만 모아 큰 순서로 정렬
+# 절댓값 0.4 이상 쌍 3개 출력 (07-08 -0.969 최대)
