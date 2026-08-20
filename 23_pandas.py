@@ -1161,9 +1161,9 @@ def line():
 # print(report.sort_values("온도편차", ascending=False))
 
 
-import pandas as pd
+# import pandas as pd
 
-df = pd.read_csv(".venv/14_hydraulic.csv", encoding="utf-8")
+# df = pd.read_csv(".venv/14_hydraulic.csv", encoding="utf-8")
 
 # corr 한 줄로 계산하는 상관계수 correlation
 # cor1 = df["온도"].corr(df["진동"])
@@ -1180,47 +1180,47 @@ df = pd.read_csv(".venv/14_hydraulic.csv", encoding="utf-8")
 # 진동  0.931  1.000  0.524
 # 압력  0.284  0.524  1.000
 
-import pandas as pd
+# import pandas as pd
 
-line()
+# line()
 
-df = pd.read_csv(".venv/14_hydraulic_qc.csv", encoding="utf-8")
+# df = pd.read_csv(".venv/14_hydraulic_qc.csv", encoding="utf-8")
 # print("실습 1. 상관계수와 상관 행렬 구하기")
 
 # corr로 두 지표의 상관계수를 구해 부호와 절댓값 해석
 # 여러 지표 열을 골라 corr로 상관 행렬 생성
 # 대각선(항상 1)과 대칭 구조를 확인하고 절댓값 큰 칸 찾기
-print(df[["지표01", "지표02", "지표03", "지표04"]].corr().round(3))  # -0.983
+# print(df[["지표01", "지표02", "지표03", "지표04"]].corr().round(3))  # -0.983
 
 
-line()
+# line()
 
-df = pd.read_csv(".venv/14_hydraulic_qc.csv", encoding="utf-8")
+# df = pd.read_csv(".venv/14_hydraulic_qc.csv", encoding="utf-8")
 # print("실습 2. 강한 상관 쌍 찾기")
 
 # 여러 지표 열로 상관 행렬을 만들기
-feat = ["지표%02d" % i for i in range(1, 11)]
-print(feat)
-cm = df[feat].corr().round(3)
+# feat = ["지표%02d" % i for i in range(1, 11)]
+# print(feat)
+# cm = df[feat].corr().round(3)
 # print(cm)
 # 이중 반복으로 대각선을 제외한 각 쌍의 상관계수 확인
 # 위 cm 자료에서 0.4 이상의 상관관계가 크다 판단되는 경우를 뽑아보기
-for i in range(len(cm.columns)):
-    print(f"{i}번째 컬럼 이름 {cm.columns[i]}")
+# for i in range(len(cm.columns)):
+# print(f"{i}번째 컬럼 이름 {cm.columns[i]}")
 
-    # i + 1번부터 챙겨 비교해야, 대각선 중심의 반대편을 중복 비교하지 않게 할 수 있다.
-    for j in range(i + 1, len(cm.columns)):
+# i + 1번부터 챙겨 비교해야, 대각선 중심의 반대편을 중복 비교하지 않게 할 수 있다.
+# for j in range(i + 1, len(cm.columns)):
 
-        c = cm.iloc[i, j]
-        # print(f'{i}번째 컬럼 {cm.columns[i]}과 비교할 {cm.columns[j]} : {c}') #
-        # 8번째 컬럼 지표09와 비교할 지표10 : -0.951
-        # abs로 - 부호 없는 절대값 만들기
-        if abs(c) > 0.4:
-            print(
-                f"{i}번째 컬럼 {cm.columns[i]}과 비교할 {cm.columns[j]} : {c} -> 강한 상관계수"
-            )
-            # 별도의 배열을 만들어 해당 배열에 결과를 추가하고
-            # 반복문이 끝나면 바깥에서 출력 처리 및 가장 큰 값도 찾고, 강한쌍이 몇개인지도 출력
+# c = cm.iloc[i, j]
+# print(f'{i}번째 컬럼 {cm.columns[i]}과 비교할 {cm.columns[j]} : {c}') #
+# 8번째 컬럼 지표09와 비교할 지표10 : -0.951
+# abs로 - 부호 없는 절대값 만들기
+# if abs(c) > 0.4:
+#     print(
+#         f"{i}번째 컬럼 {cm.columns[i]}과 비교할 {cm.columns[j]} : {c} -> 강한 상관계수"
+#     )
+#     # 별도의 배열을 만들어 해당 배열에 결과를 추가하고
+# 반복문이 끝나면 바깥에서 출력 처리 및 가장 큰 값도 찾고, 강한쌍이 몇개인지도 출력
 
 
 # 0번째 컬럼 이름 지표01
@@ -1236,3 +1236,313 @@ for i in range(len(cm.columns)):
 
 # 절댓값이 기준 이상인 쌍만 모아 큰 순서로 정렬
 # 절댓값 0.4 이상 쌍 3개 출력 (07-08 -0.969 최대)
+# import pandas as pd
+
+# df = pd.read_csv(".venv/14_hydraulic_qc.csv", encoding="utf-8")
+
+# r1 = df["지표07"].corr(df["지표08"])
+
+# print(r1.round(3))  # -0.969
+
+# cols = [
+#     "지표01",
+#     "지표02",
+#     "지표03",
+#     "지표04",
+#     "지표05",
+#     "지표06",
+#     "지표07",
+#     "지표08",
+#     "지표09",
+#     "지표10",
+# ]
+# r2 = df[cols].corr()
+# print(r2.round(2))
+
+# line()
+
+# df = pd.read_csv(".venv/14_hydraulic_qc.csv", encoding="utf-8")
+# print("실습 3. 그룹별 상관 비교")
+# df = pd.read_csv(".venv/14_hydraulic_qc.csv", encoding="utf-8")
+
+# 판정 열로 합격·불합격 그룹을 나누기 -> '검사결과' 컬럼
+# 각 그룹에서 같은 두 지표의 상관계수를 계산
+# 전체·합격·불합격 상관을 비교하고 표본 수 주의
+
+# 전체 데이터의 지표07과 08의 상관관계
+# r_all = df["지표07"].corr(df["지표08"])
+# print(r_all.round(3))  # -0.969
+# r_qa = df[df["검사결과"] == "합격"]
+# r_qb = df[(df["검사결과"] == "불합격")]
+# print(r_qa["지표07"].corr(r_qa["지표08"]).round(3))  # 0.385
+# print((r_qb["지표07"]).corr((r_qb["지표08"])).round(3))  # -0.998
+
+# 해석
+# 검사결과 합격의 경우 지표07과 지표08사이에 관계성이 약함
+# 불합격이면 그 관계성이 강하다.
+
+
+# print("실습 4. ")
+# df = pd.read_csv(".venv/14_equipment_sensor.csv", encoding="utf-8")
+
+# print(df.columns)
+# 라인으로 그룹을 나눠 측정수·평균온도·온도편차 요약
+# report = (
+#     df.groupby("line")
+#     .agg(측정수=("temp", "count"), 평균온도=("temp", "mean"), 온도편차=("temp", "std"))
+#     .round(2)
+# )
+# print(report.sort_values("온도편차", ascending=False))
+
+#       측정수   평균온도   온도편차
+# line
+# A라인    54  76.86  10.18
+# B라인    35  77.69   7.60
+# C라인    31  79.88  10.38
+
+# 위 표 안에서도 온도편차가 큰 경우가 심각한 정보라서 우선 나타나게 해주자.
+#       측정수   평균온도   온도편차
+# line
+# C라인    31  79.88  10.38
+# A라인    54  76.86  10.18
+# B라인    35  77.69   7.60
+# 온도(temp)와 진동(vibration)의 상관계수(corr)를 구해 함께 움직임 확인
+
+# print(df["temp"].corr(df["vibration"]).round(2))  # 0.34
+# 고장 행을 걸러 라인별 고장 건수까지 더해 우선 점검 대상 정리
+
+# df_bad = df[df["result"] == "고장"]
+# print(df_bad)
+# print(f'라인별 고장 건수 \n{df_bad.groupby("line").size()}')
+# 라인별 고장 건수
+# line
+# A라인    16
+# B라인     6
+# C라인     6
+
+# ======================================================
+# df = pd.read_csv(".venv/15_사출성형_로그.csv", encoding="utf-8")
+# print("실습 1. 눈으로 결측 찾기")
+
+# print(df.head(3))
+# print(df.describe())
+
+
+# 설비 센서 데이터를 불러와 isna로 컬럼별 NaN 개수 세기
+# print(df.isna().sum())  # True = 1, False = 0 합산
+# 조건 필터링으로 압력 0, 진동 -999 같은 위장 결측 개수 세기
+# print((df["사출압력"] == 0).sum())  # 2
+# print((df["스크루속도"] == -999).sum())  # 2
+
+# 진짜 결측과 위장 결측을 나눠 비교
+
+
+# ==============================================
+
+# df = pd.read_csv(
+#     ".venv/15_01_사출성형_공정.csv", encoding="utf-8", na_values=(-999, 999)
+# )
+# -999랑 999라는 값이 있으면 NaN으로 처리해버림.
+# 조 데이터에서는 -999, 999 같은 숫자를 실제 측정값이 아니라
+# "측정 실패", "값 없음", "센서 오류"를 표시하는 특수값으로
+# 넣어두는 경우가 있기 때문
+# 그냥 두면 평균 같은 계산에 들어가서 결과를 크게 왜곡할 수 있어.
+
+
+# print(df.shape)  # (250, 22)
+# df.info()
+# print(df.describe)
+
+# print(df.isna().sum())
+# 측정시각        0
+# 불량여부        0
+# 사이클시간       0
+# 성형사이클       0
+# 배럴온도1       0
+# 배럴온도2       0
+# 배럴온도3       0
+# 배럴온도4       0
+# 호퍼온도        0
+# 최대사출속도      0
+# 사출압력        1
+# 스크루위치       3
+# 전환위치        5
+# 계량시간        9
+# 계량시작점       9
+# 최대사출압      34
+# 전환압력       34
+# 계량시작위치     34
+# 스크루속도      60
+# 최소쿠션       68
+# 계량종료점     109
+# 감압시간      109
+# print(df.isna().sum().sum())  # 475
+# sum().sum()을 하면 NaN의 개수 총합이 나옴
+
+# line()
+# print("실습 2. SECOM 첫 탐색")
+# df = pd.read_csv(".venv/15_01_사출성형_공정.csv", encoding="utf-8")
+
+
+# print(df.head(2))
+# print(df.shape) # (250, 22)
+# df.info()
+
+# print(df.describe())
+
+# line()
+# print("실습 3. 위장 결측 사냥")
+
+# df = pd.read_csv(".venv/15_사출성형_로그.csv", encoding="utf-8")
+
+# 위장 결측이 있는 열을 조건 필터링으로 추출해 확인
+# print((df["배럴온도"] == 999).sum())  # 1
+# print((df["스크루속도"] == -999).sum())  # 2
+
+# na_values로 위장값을 결측으로 인식해 다시 불러오기
+# df = pd.read_csv(".venv/15_사출성형_로그.csv", encoding="utf-8", na_values=(-999, 999))
+
+# 변환 전후 결측 개수를 비교
+# print((df["배럴온도"] == 999).sum())  # 0
+# print((df["스크루속도"] == -999).sum())  # 0
+
+# line()
+# print("실습 4. 컬럼별 결측 개수와 비율")
+
+# df = pd.read_csv(".venv/15_01_사출성형_공정.csv", encoding="utf-8")
+
+# counts = df.isna().sum()
+# print(counts)
+# 측정시각        0
+# 불량여부        0
+# 사이클시간       0
+# 성형사이클       0
+# 배럴온도1       0
+# 배럴온도2       0
+# 배럴온도3       0
+# 배럴온도4       0
+# 호퍼온도        0
+# 최대사출속도      0
+# 사출압력        1
+# 스크루위치       3
+# 전환위치        5
+# 계량시간        9
+# 계량시작점       9
+# 최대사출압      34
+# 전환압력       34
+# 계량시작위치     34
+# 스크루속도      60
+# 최소쿠션       68
+# 계량종료점     109
+# 감압시간      109
+
+# ratio = (counts / len(df) * 100).round(1)
+# print(ratio)
+# 측정시각       0.0
+# 불량여부       0.0
+# 사이클시간      0.0
+# 성형사이클      0.0
+# 배럴온도1      0.0
+# 배럴온도2      0.0
+# 배럴온도3      0.0
+# 배럴온도4      0.0
+# 호퍼온도       0.0
+# 최대사출속도     0.0
+# 사출압력       0.4
+# 스크루위치      1.2
+# 전환위치       2.0
+# 계량시간       3.6
+# 계량시작점      3.6
+# 최대사출압     13.6
+# 전환압력      13.6
+# 계량시작위치    13.6
+# 스크루속도     24.0
+# 최소쿠션      27.2
+# 계량종료점     43.6
+# 감압시간      43.6
+
+
+# 결측이 있는 컬럼만 골라 개수와 비율을 나란히 정리
+# table = pd.DataFrame({"개수": counts, "비율": ratio})
+# print(table[table["개수"] > 0])
+
+
+# line()
+# print("실습 5. 결측 순위와 행별 분석")
+
+
+# 결측 비율을 내림차순 정렬해 가장 심한 컬럼 확인
+# print(ratio.sort_values(ascending=False).head(3))
+# 계량종료점    43.6
+# 감압시간     43.6
+# 최소쿠션     27.2
+# 방향을 가로(행)로 바꿔 행마다 결측 개수 세기
+# NaN 합산대상을 y축 방향별로 컬럼별로 하는게 아니라
+# x축방향별로 각 row마다 처리하기
+# df_axis = df.isna().sum(axis=1)
+# print(f"결측없는 행 {(df_axis == 0).sum()}개")  # 결측없는 행 76개
+# print(f"결측있는 행 {(df_axis > 0).sum()}개")  # 결측있는 행 174개
+# 결측이 많은 부실 행만 조건으로 골라내기
+# print(f"결측 5개 이상있는 행 {(df_axis >= 5).sum()}개")  # 결측 5개 이상있는 행 27개
+
+
+# line()
+
+import pandas as pd
+
+df = pd.read_csv(
+    ".venv/15_01_사출성형_공정.csv", encoding="utf-8", na_values=(-999, 999)
+)
+
+# print(df.shape)  # (250, 22)
+
+# NaN 결측 데이터가 있는 '행'들을 모두 삭제
+# clean = df.dropna()  # axis=0 이 생략되어 있는거임
+# print(clean.shape)  # (76, 22) 그래서 22는 그대로 인거임
+
+
+# NaN 결측 데이터가 있는 '열'들을 모두 삭제
+# clean2 = df.dropna(axis=1)
+# print(clean2.shape)  # (250, 10) 그래서 250이 그대로 인거임
+
+
+def line():
+    print("=" * 40)
+
+
+import pandas as pd
+
+# line()
+
+df = pd.read_csv(".venv/15_02_사출성형_공정.csv", encoding="utf-8")
+# print("실습 1. dropna로 행 열 삭제")
+
+# 원본 크기를 shape로 확인
+# print(df.shape)  # (250, 22)
+
+# dropna로 결측 있는 행을 모두 삭제
+# print(df.dropna().shape)  # (76, 20)
+
+# 방향을 열로 바꿔 결측 있는 열을 삭제
+# print(df.dropna(axis=1).shape) # (250, 10)
+
+
+line()
+print("실습 2. dropna 옵션 조절")
+
+# how로 완전히 빈 행만 삭제하는 기준 적용 # how = 'all'
+print(df.dropna(how="all").shape)  # (250, 22) -> 완전히 빈 행은 없음
+
+# thresh로 값이 일정(예, 20개) 개수 '이상'인 행만 남기기 -> thresh = 20
+print(df.dropna(thresh=20).shape)  # (162, 22)
+# -> 250 - 162 = 88개 row는 NaN이 3(22개 열에서 20개열) 개 이상이라는 뜻
+
+# subset으로 특정 컬럼이 빈 행만 삭제
+print(df.dropna(subset=["불량여부"]).shape)  # (250, 22)
+# '불량여부' 컬럼에는 NaN이 하나도 없다고 판단 가능
+
+line()
+print("실습 3. 결측 비율 기준컬럼 제거")
+# 컬럼별 결측 비율을 계산
+# 비율이 기준을 넘는 컬럼 이름만 목록으로 뽑기
+# 그 컬럼들을 drop으로 제거하고 크기 확인
