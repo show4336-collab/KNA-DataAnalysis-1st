@@ -1488,11 +1488,11 @@ def line():
 
 # line()
 
-import pandas as pd
+# import pandas as pd
 
-df = pd.read_csv(
-    ".venv/15_01_사출성형_공정.csv", encoding="utf-8", na_values=(-999, 999)
-)
+# df = pd.read_csv(
+#     ".venv/15_01_사출성형_공정.csv", encoding="utf-8", na_values=(-999, 999)
+# )
 
 # print(df.shape)  # (250, 22)
 
@@ -1506,15 +1506,11 @@ df = pd.read_csv(
 # print(clean2.shape)  # (250, 10) 그래서 250이 그대로 인거임
 
 
-def line():
-    print("=" * 40)
-
-
-import pandas as pd
+# import pandas as pd
 
 # line()
 
-df = pd.read_csv(".venv/15_02_사출성형_공정.csv", encoding="utf-8")
+# df = pd.read_csv(".venv/15_02_사출성형_공정.csv", encoding="utf-8")
 # print("실습 1. dropna로 행 열 삭제")
 
 # 원본 크기를 shape로 확인
@@ -1527,22 +1523,512 @@ df = pd.read_csv(".venv/15_02_사출성형_공정.csv", encoding="utf-8")
 # print(df.dropna(axis=1).shape) # (250, 10)
 
 
-line()
-print("실습 2. dropna 옵션 조절")
+# line()
+# print("실습 2. dropna 옵션 조절")
 
 # how로 완전히 빈 행만 삭제하는 기준 적용 # how = 'all'
-print(df.dropna(how="all").shape)  # (250, 22) -> 완전히 빈 행은 없음
+# print(df.dropna(how="all").shape)  # (250, 22) -> 완전히 빈 행은 없음
 
 # thresh로 값이 일정(예, 20개) 개수 '이상'인 행만 남기기 -> thresh = 20
-print(df.dropna(thresh=20).shape)  # (162, 22)
+# print(df.dropna(thresh=20).shape)  # (162, 22)
 # -> 250 - 162 = 88개 row는 NaN이 3(22개 열에서 20개열) 개 이상이라는 뜻
 
 # subset으로 특정 컬럼이 빈 행만 삭제
-print(df.dropna(subset=["불량여부"]).shape)  # (250, 22)
+# print(df.dropna(subset=["불량여부"]).shape)  # (250, 22)
 # '불량여부' 컬럼에는 NaN이 하나도 없다고 판단 가능
 
-line()
-print("실습 3. 결측 비율 기준컬럼 제거")
+
+# line()
+# print("실습 3. 결측 비율 기준컬럼 제거")
+# df = pd.read_csv(".venv/15_02_사출성형_공정.csv", encoding="utf-8")
+
+
 # 컬럼별 결측 비율을 계산
+# df_rate = df.isna().sum() / len(df)
+# print(df_rate)
+
 # 비율이 기준을 넘는 컬럼 이름만 목록으로 뽑기
+
+# df_40 = df_rate[df_rate > 0.4]
+# print(df_40)
+# 최대사출속도    0.436
+# 감압시간      0.436
+
+# list_df_40 = df_rate[df_rate > 0.4].index.tolist()
+# print(list_df_40)  # ['최대사출속도', '감압시간']
 # 그 컬럼들을 drop으로 제거하고 크기 확인
+# df_final = df.drop(columns=list_df_40)
+# print(df_final.columns)
+
+
+# line()
+# print("실습 4. 삭제 손실 비교")
+# df = pd.read_csv(".venv/15_02_사출성형_공정.csv", encoding="utf-8")
+
+# print(df.shape)
+
+# df_compare = pd.DataFrame(
+#     {
+#         "방식": ["원본", "행삭제", "thresh20"],
+#         "행": [len(df), len(df.dropna()), len(df.dropna(thresh=20))],
+#     }
+# )
+
+#          방식    행
+# 0        원본  250
+# 1       행삭제   76
+# 2  thresh20  162
+# df_compare["손실률"] = ((1 - (df_compare["행"] / len(df))) * 100).round(2)
+# print(df_compare)
+#          방식    행   손실률
+# 0        원본  250   0.0
+# 1       행삭제   76  69.6
+# 2  thresh20  162  35.2
+
+
+def line():
+    print("=" * 40)
+
+
+# line()
+# print("실습 5. fillna 평균·중앙값 대체")
+# df = pd.read_csv(".venv/15_02_사출성형_공정.csv", encoding="utf-8")
+
+# print(df["최대사출압"].isna().sum())  # 60개 NaN
+
+# 대상 컬럼의 평균과 중앙값을 각각 구해 비교
+# fillna로 평균을 채운 결과 만들기
+# df_mean = df["최대사출압"].mean()
+# print(f"최대사출압의 평균 : {df_mean.round(2)}")
+# 최대사출압의 평균 : 1241.67
+
+# s_fillmean = df["최대사출압"].fillna(df_mean)
+# print(s_fillmean)
+# df["최대사출압"] = s_fillmean
+# print(df["최대사출압"].isna().sum())  # 최대사출압 컬럼의 NaN 0개
+
+# fillna로 중앙값을 채운 결과 만들기(이상치에 강함)
+# df_median = df["최대사출압"].median()
+# print(f"최대사출압의 중앙값 : {df_median}")
+# 최대사출압의 중앙값 : 1240.84
+
+# s_fillmedian = df["최대사출압"].fillna(df_median)
+# print(s_fillmedian)
+# df["최대사출압"] = s_fillmedian
+# print(df["최대사출압"].isna().sum())  # 최대사출압 컬럼의 NaN 0개
+
+# 예상 결과
+# 센서17 평균 466.26·중앙값 465.9로 대체, 남은 결측 0
+
+# line()
+# print("실습 6. 최빈값·앞뒤 값 대체")
+# df = pd.read_csv(".venv/15_02_사출성형_공정.csv", encoding="utf-8")
+# 범주형은 최빈값, 시계열은 앞뒤 값으로 채우기
+
+# 범주형 열의 최빈값을 구해 채우기
+# 사출기 컬럼은 1~3호기 범주형으로 판단
+# print(df["사출기"].isna().sum())  # 0
+# print(df["사출기"].mode()[0])  # 1호기
+
+# df["사출기"] = df["사출기"].fillna(df["사출기"].mode()[0])
+# print(df["사출기"].isna().sum())  # 0개!
+
+# 측정시각 순으로 정렬해 시계열 순서 만들기
+# df = df.sort_values("측정시각")
+
+# ffill로 앞 값, bfill로 남은 앞쪽 결측까지 채우기
+# print(df["전환압력"].isna().sum())  # 68개 NaN
+# df["전환압력"] = df["전환압력"].ffill().bfill()  # 자주 볼 시계열 채우기 패턴
+# print(df["전환압력"].isna().sum())  # 0개 NaN
+
+# 예상 결과
+# 설비명은 최빈값(절삭기A), 온도는 앞뒤 값으로 대체
+
+# line()
+# print("실습 7. 그룹별 대체")
+# df = pd.read_csv(".venv/15_02_사출성형_공정.csv", encoding="utf-8")
+# 그룹별 평균으로 채워 집단 특성 반영
+
+# · 제품유형으로 그룹을 나누기
+# print(df.groupby("사출기")["감압시간"].mean())
+# 1호기    0.322179
+# 2호기    0.322368
+# 3호기    0.322400
+
+# 각 그룹의 평균으로 그 그룹의 결측을 채우기
+
+# 사출기별로 그룹을 나누고
+# 그룹마다 갑압시간의 시리즈를 뽑아서
+# 그 시리즈의 NaN들을 그 시리즈의 평균들로 채운다
+# df["감압시간"] = df.groupby("사출기")["감압시간"].transform(
+#     lambda x: x.fillna(x.mean())
+# )
+
+# print(df["감압시간"].isna().sum())  # 0
+
+# df_numbers = df.select_dtypes("number")
+# df[df_numbers.columns] = df_numbers.fillna(df_numbers.median())
+
+# print(df.isna().sum())
+# print(df.isna().sum().sum())
+
+# 예상 결과
+# 토크를 유형별 평균으로 대체, 남은 결측 0
+
+
+# print("실습 8. 제거 vs 대체 비교")
+# df = pd.read_csv(".venv/15_02_사출성형_공정.csv", encoding="utf-8")
+
+# 같은 데이터에 제거와 대체를 적용해 결과 비교
+
+# 결측 심한 컬럼을 먼저 뺀 기준 데이터 만들기
+# print(df.isna().sum())
+# 최대사출속도    109
+# 감압시간      109
+# standard = df.drop(columns=["최대사출속도", "감압시간"])
+# standard.info()  # 최대사출속도, 감압시간 컬럼 제거 확인
+# print(standard.shape)  # (250, 20)
+
+# 기준 데이터에서 결측 행을 삭제한 제거 버전 만들기
+# remover = standard.dropna()
+# print(remover.shape)  # (110, 20)
+
+# 기준 데이터의 결측을 중앙값으로 채운 대체 버전 만들기
+# replaced = standard.fillna(standard.median(numeric_only=True))
+# print(replaced.shape)  # (250, 20)
+
+# 예상 결과
+# 제거 버전 110행, 대체 버전 250행(모두 유지)
+
+
+# print("실습 9. SECOM·AI4I 종합 처리")
+# df = pd.read_csv(".venv/15_02_사출성형_공정.csv", encoding="utf-8")
+
+# 제거와 대체를 조합해 전체 결측을 처리하고 저장
+
+# 결측 비율 높은 컬럼을 제거하고 나머지는 중앙값으로 채우기
+# 앞서 처리한 대체판 재사용!
+
+# 처리 후 남은 결측과 크기를 확인하고 파일로 저장
+# print(replaced.isna().sum().sum())  # 0
+# replaced.to_csv(".venv/15_02_사출성형_공정_clean.csv", index=False, encoding="utf-8")
+
+# 같은 절차를 AI4I 데이터에도 반복해 결측 0 확인
+
+# 예상 결과
+# SECOM 결측 0·저장, AI4I 결측 0
+
+
+# def line():
+#     print("=" * 40)
+
+
+# import pandas as pd
+
+# line()
+
+# df = pd.read_csv(".venv/16_diecasting.csv", encoding="utf-8")
+
+# df = df.dropna()
+# df.info()
+# print(df.describe())
+
+# print(df["주조압력"].quantile(0.25))  # 595.0
+# print(df["주조압력"].quantile(0.50))  # 1037.0
+# print(df["주조압력"].quantile(0.75))  # 1052.0
+
+
+# print(df["주조압력"].quantile([0.25, 0.5, 0.75]))
+# 0.25     595.0
+# 0.50    1037.0
+# 0.75    1052.0
+
+# print(df["주조압력"].quantile([0.25, 0.5, 0.75]).tolist())
+# [595.0, 1037.0, 1052.0]
+
+# line()
+# print("실습 1. 주조 데이터 구조 분포 살펴보기")
+
+# print(df.head(2))
+#    샷  실린더압력    주조압력  사이클타임  비스킷두께    형체력  상태
+# 0  1  214.0  1037.0   20.7   10.0  258.0   0
+# 1  2  217.0  1052.0   20.7   11.0  257.0   0
+# print(df.shape) # (202, 7)
+# print(df.columns)
+# df.info()
+# print(df[["실린더압력", "사이클타임"]])
+
+# line()
+# print("실습 2. 한 컬럼의 최소 최대 범위")
+# print(df["실린더압력"].min()) # 108
+# print(df["실린더압력"].max()) # 265
+# print(df["실린더압력"].max() - df["실린더압력"].min()) # 157
+
+# line()
+# print("실습 3. 정렬해서 이상치 후보 찾기")
+
+# s_sorted = df.sort_values("사이클타임", ascending=False)
+# print(s_sorted.head(4))  # 주조압력 6170.0, 652.3 발견!
+
+
+# line()
+# print("실습 4. 평균 중앙값으로 이상치 영향 확인")
+
+# print(df["사이클타임"].agg(["mean", "median"]))  # mean 64.75 median 22.60
+# print(df[df["상태"] == 0])
+# print(df[df["상태"] == 0].agg(["mean", "median"]).round(2))  # 평균 27.67
+
+# line()
+# print("실습 5. quantile로 Q1, Q2, Q3")
+# print(df["실린더압력"].quantile(0.25))  # 215.75
+# print(df["실린더압력"].quantile(0.50))  # 218.0
+# print(df["실린더압력"].median())  # 218.0
+# print(df["실린더압력"].quantile(0.75))  # 265.0
+
+# line()
+# print("실습 6. describe로 격차 큰 컬럼 찾기")
+# print(df.describe())
+# report = (
+#     df[["실린더압력", "주조압력", "사이클타임", "비스킷두께", "형체력"]].describe().T
+# )
+# .T는 axis를 바꿔서 보여줌!!!
+# print(report)
+
+# 격차가 큰 순으로 정렬해 이상치 의심 컬럼 확인
+# 격차라는 새로운 컬럼을 추가해서 계산 결과들을 담기
+# 그 다음에 격차 결과순서로 정렬
+# report["격차"] = (report["mean"] - report["50%"]).abs()
+# print(report.head())
+# print(
+#     report.sort_values("격차", ascending=False)[["mean", "50%", "max", "격차"]].head(3)
+# )
+# .T를 했던 이유는 격차라는 열을 넣기위해 쉬운 코드를 쓰려다 보니 쓴 이유도 있음!!
+
+
+# line()
+# print("실습 7. 여러 컬럼의 가운데 절반 폭 비교")
+# df_q = df[["실린더압력", "사이클타임", "비스킷두께"]].quantile([0.25, 0.5, 0.75])
+# print(df_q)
+# print(df_q.loc[0.75])
+# 실린더압력    265.000
+# 사이클타임     35.925
+# 비스킷두께     17.000
+# Name: 0.75, dtype: float64
+# print(df_q.loc[0.75] - df_q.loc[0.25])
+# 실린더압력    49.250
+# 사이클타임    15.125
+# 비스킷두께     6.000
+# dtype: float64
+
+
+# def line():
+#     print("=" * 40)
+
+
+# df = pd.read_csv(".venv/16_diecasting.csv", encoding="utf-8")
+
+# import pandas as pd
+
+# line()
+
+# q1 = df["실린더압력"].quantile(0.25)
+# q3 = df["실린더압력"].quantile(0.75)
+# print(f"q1 : {q1}, q3 : {q3}")
+# q1 : 215.75, q3 : 265.0
+
+# iqr = q3 - q1
+# print(f"IQR : {iqr.round(2)}")  # IQR : 49.25
+
+# lower = q1 - (1.5 * iqr)
+# upper = q3 + (1.5 * iqr)
+# print(f"하한선 : {lower.round(2)}, 상한선 : {upper.round(2)}")
+# 하한선 : 141.88, 상한선 : 338.88
+
+# q1 = df["사이클타임"].quantile(0.25)
+# q3 = df["사이클타임"].quantile(0.75)
+# iqr = q3 - q1
+# lower = q1 - (1.5 * iqr)
+# upper = q3 + (1.5 * iqr)
+
+# 비정상 범위
+# mask = (df["사이클타임"] > upper) | (df["사이클타임"] < lower)
+# print(mask.sum())  # 6
+# print(df[mask].shape)  # (6, 7)
+# print(df[~mask].shape)  # (196, 7)
+
+# 정상범위
+# mask_ok = (df["사이클타임"] >= lower) & (df["사이클타임"] <= upper)
+
+# print(df[mask_ok].shape)  # (182, 7)
+
+
+# df_clean = df[~mask]
+# print(len(df), len(df_clean))  # 202 196
+# print(df_clean["사이클타임"].mean().round(2))  # 27.28
+
+
+# .mask()로 이상치를 NaN으로 바꾸고 나서
+# fillna로 중앙값 대체
+# s_masked = df["사이클타임"].mask(mask)
+# s_masked.info()
+# print(s_masked.isna().sum())  # 20
+# fixed = s_masked.fillna(s_masked.median())
+# print(fixed.isna().sum())  # 0
+# print(fixed.mean().round(2))  # 26.8
+
+
+# 경계값으로 보정하기
+# clip(lower, upper) 보정 : 하한보다 작으면 하한값으로, 상한보다 크면 상한값으로 강제 평탄화
+# 시계열 신호나 추세가 깨지지 않고 데이터 수도 그대로 유지되는 현업 다빈도 기법임.
+# df["사이클타임"] = df["사이클타임"].clip(lower=lower, upper=upper)
+# print(df["사이클타임"].min())
+# print(df["사이클타임"].max())
+# print(df["사이클타임"].mean())
+
+
+# print(df.duplicated())  # True / Falsedml Boolean Serise
+# print(df.duplicated().sum())  # 2
+# print(
+#     len(df)
+# )  # 202 : 전체가 202개 row로 2개 중복 빼면 순수하게 200개가 한줄씩 안겹치고 존재
+# print(df[df.duplicated()])
+#       샷  실린더압력    주조압력  사이클타임  비스킷두께    형체력  상태
+# 200   8  215.0  1038.0   20.9   11.0  258.0   0
+# 201  89  235.0  1137.0   22.7   13.0  261.0   0
+
+# print(df.duplicated(keep="first"))  # 기본값임 / 먼저 온 것을 살림
+# print(df.duplicated(keep="last"))  # 마지막 행을 남기고 이전 중복 표시
+# print(df.duplicated(keep=False).sum())  # 4개의 중복 row들을 모두 제거 대상으로 삼기
+# 중복 제거
+# - drop_duplicates() : 중복된 행들을 한 행만 남기고 깔끔하게 도려내는 함수입니다.
+# print(len(df.drop_duplicates()))  # 200
+# .reset_index(drop=True) : 중복을 지운 후 듬성듬성 깨져버린 원래의 일련번호 인덱스를
+# 0부터 시작하는 촘촘한 정수로 깔끔하게 정렬해줌.
+# print(len(df.drop_duplicates().reset_index(drop=True)))  # 200
+
+# 부분중복 제거
+# print(
+#     len(
+#         df.drop_duplicates(
+#             subset=["샷", "실린더압력", "주조압력"], keep="last"
+#         ).reset_index(drop=True)
+#     )
+# )
+
+# def line():
+#     print("=" * 40)
+
+
+# import pandas as pd
+
+# df = pd.read_csv(".venv/16_diecasting.csv", encoding="utf-8")
+
+# line()
+# print("실습 1. IQR과 이상치 경계 구하기")
+
+# q1 = df["사이클타임"].quantile(0.25)
+# q3 = df["사이클타임"].quantile(0.75)
+# iqr = (q3 - q1).round(2)
+# print(iqr)  # 15.12
+# lower = q1 - (iqr * 1.5)
+# upper = q3 + (iqr * 1.5)
+# print(f"사이클타임 IQR {iqr}, 하한 {lower.round(1)} 상한 {upper.round(1)}")
+# # 사이클타임 IQR 15.12, 하한 -1.9 상한 58.6
+
+
+# line()
+# print("실습 2. 조건 필터로 이상치 골라내고 개수·비율")
+
+# df_mask = (df["사이클타임"] < lower) | (df["사이클타임"] > upper)
+# print(df[df_mask][["샷", "사이클타임", "상태"]])
+
+# print(df_mask.sum(), round(df_mask.mean() * 100, 1))  # 6 3.0
+
+
+# line()
+# print("실습 4. 이상치 제거 후 크기 비교")
+
+# normal = df[~df_mask]
+# print(f"이상치 {len(df_mask)}, 정상 {len(normal)}")
+# # 이상치 202, 정상 196
+
+# print(
+#     f"이상치 평균 {df[df_mask]['사이클타임'].mean().round(2)}, 정상치 평균 {normal['사이클타임'].mean().round(2)}"
+# )
+# # 이상치 평균 1201.47, 정상치 평균 27.28
+
+# line()
+# print("실습 5. 경계값 보정 clipping")
+
+# df_clip = df["사이클타임"].clip(lower=lower, upper=upper)
+# print(df_clip.agg(최댓값="max", 최솟값="min", 평균값="mean").round(2))
+# # 최댓값    58.60
+# # 최솟값    20.60
+# # 평균값    28.28
+
+# line()
+# print("실습 6. 처리 전후 통계 비교")
+
+# q1 = df["실린더압력"].quantile(0.25)
+# q3 = df["실린더압력"].quantile(0.75)
+# iqr = q3 - q1
+# L = q1 - (iqr * 1.5)
+# U = q3 + (iqr * 1.5)
+
+# M = (df["실린더압력"] < L) | (df["실린더압력"] > U)
+# MM = df["실린더압력"].mask(M).fillna(df["실린더압력"].mask(M).median())
+
+# print(df["실린더압력"].mean().round(2))  # 234.31
+# print(df[~M]["실린더압력"].mean().round(2))  # 238.39
+# print(df["실린더압력"].clip(L, U).mean().round(2))  # 235.31
+
+
+# line()
+# print("실습 7. duplicated로 중복 찾기와 개수")
+
+# print(df.duplicated().sum())  # 완전 중복 2건
+# print(df.duplicated(keep=False).sum())  # 총 4개 행
+
+
+# line()
+# print("실습 8. drop_duplicates")
+
+# print(len(df))  # 202
+# print(len(df.drop_duplicates()))  # 200
+# print(len(df.drop_duplicates(subset="샷", keep="last")))  # 200
+# print(len(df.drop_duplicates(subset=["샷"], keep="last")))  # 200
+
+# line()
+# print("실습 9. reset_index로 인덱스 정리")
+
+# df_clean = df.drop_duplicates()
+# print(df_clean.index.min(), df_clean.index.max())  # 0 199
+# print(len(df_clean))  # 200
+
+# df_clean_idxreset = df_clean.reset_index(drop=True)
+# print(df_clean_idxreset.index.min(), df_clean_idxreset.index.max())  # 0 199
+# print(len(df_clean_idxreset))  # 200
+
+
+# line()
+# print("실습 10. reset_index로 인덱스 정리")
+# df = pd.read_csv(".venv/16_welding.csv", encoding="utf-8")
+# # print(df.describe())
+
+# q1_current, q3_current = df["통전전류"].quantile(0.25), df["통전전류"].quantile(0.75)
+# iqr_current = q3_current - q1_current
+# print(iqr_current)  # 106.0
+# low_current, up_current = q1_current - (iqr_current * 1.5), q3_current + (
+#     iqr_current * 1.5
+# )
+# mask_current = (df["통전전류"] > up_current) | (df["통전전류"] < low_current)
+# print(f"{mask_current.sum()} {round(mask_current.mean() * 100, 1)}%")  # 24 14.8%
+
+# df["통전전류"] = df["통전전류"].clip(lower=low_current, upper=up_current)
+# print(df["통전전류"].isna().sum())  # 0
+# df = df.drop_duplicates().reset_index(drop=True)
+
+# df.to_csv(".venv/16_welding_clean.csv", index=False, encoding="utf-8")
+
+# line()
+# df = pd.read_csv(".venv/16_diecasting.csv", encoding="utf-8")
